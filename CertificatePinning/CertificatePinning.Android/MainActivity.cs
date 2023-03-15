@@ -18,6 +18,8 @@ namespace CertificatePinning.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+
+            // TODO: Create a native http handler to pass in as a parameter
             HttpService.InitalizeHttpClient();
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

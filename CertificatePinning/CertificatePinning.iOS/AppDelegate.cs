@@ -40,6 +40,7 @@ namespace CertificatePinning.iOS
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
+            // TODO: Create a native http handler to pass in as a parameter
             HttpService.InitalizeHttpClient();
             return base.FinishedLaunching(app, options);
         }
