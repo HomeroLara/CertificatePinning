@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<network-security-config>
+    <domain-config>
+        <domain includeSubdomains="true">www.microsoft.com</domain>
+        <pin-set expiration="2024-01-01">
+            <pin digest="SHA-256">+MhfltQyjb02gwiPB71KMCLj3VsOc4U/u3BTRG7NL3I=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>

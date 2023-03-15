@@ -19,7 +19,7 @@ namespace CertificatePinning.Services
                 // provide custom validation for the server's SSL/TLS certificate.
                 // This feature is particularly useful when you need to implement custom certificate validation logic,
                 // such as certificate pinning or when working with self-signed certificates.
-                httpHandler.ServerCertificateCustomValidationCallback = DynamicCertificateValidator.ValidateServerPublicKey;
+                httpHandler.ServerCertificateCustomValidationCallback = DynamicCertificateValidator.ValidateServerCertificate;
                 HttpClient = new HttpClient(httpHandler);
                 return;
             }

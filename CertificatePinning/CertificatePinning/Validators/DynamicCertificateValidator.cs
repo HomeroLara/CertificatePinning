@@ -32,18 +32,14 @@ namespace CertificatePinning.Validators
                     .FirstOrDefault(h => h.HashType == HashType.PublicKey && 
                                          string.Equals(h.HostUrl, requestMessage?.RequestUri?.Host, StringComparison.OrdinalIgnoreCase));
 
+                if (publicKey is null)
+                {
+                    return false;
+                }
+
                 // get the SHA256 Hash of the public key of the certificate
                 var publicKeyHashString = KeyHasher.GetPublicKeyHash(certificate);
-                
-                if (publicKey != null && !string.IsNullOrWhiteSpace(publicKeyHashString))
-                {
-                    // Compare the computed hash from the certificate of the request object to the preconfigured hash value
-                    if (!string.Equals(publicKeyHashString, publicKey?.Hash.ToLowerInvariant(), StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new Exception("Server certificate does not match the expected value.");
-                    }
-                    return true;
-                }
+                return string.Equals(publicKeyHashString, publicKey?.Hash.ToLowerInvariant(), StringComparison.OrdinalIgnoreCase);
             }
             
             // If there are SSL policy errors, consider the certificate invalid
@@ -70,21 +66,19 @@ namespace CertificatePinning.Validators
                     .Hosts?
                     .FirstOrDefault(h => h.HashType == HashType.Certificate && 
                                          string.Equals(h.HostUrl, requestMessage?.RequestUri?.Host, StringComparison.OrdinalIgnoreCase));
-                
+
+                if (certificateKey is null)
+                {
+                    return false;
+                }
+
                 // get the SHA256 Hash of the entire certificate
                 var certificateHashString = KeyHasher.GetCertificateKeyHash(certificate);
 
-                if (certificateKey != null && !string.IsNullOrWhiteSpace(certificateHashString))
-                {
-                    // Compare the computed hash from the entire certificate from the request object to the preconfigured hash value
-                    if (!string.Equals(certificateHashString, certificateKey?.Hash.ToLowerInvariant(),
-                            StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new Exception("Server certificate does not match the expected value.");
-                    }
-
-                    return true;
-                }
+                // Compare the computed hash from the entire certificate from the
+                // request object to the preconfigured hash value
+                return string.Equals(certificateHashString, certificateKey?.Hash.ToLowerInvariant(),
+                            StringComparison.OrdinalIgnoreCase);
             }
             
             // If there are SSL policy errors, consider the certificate invalid
